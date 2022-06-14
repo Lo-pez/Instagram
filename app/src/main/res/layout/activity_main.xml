@@ -43,12 +43,23 @@ tools:context=".ui.login.LoginActivity">
         android:layout_gravity="start"
         android:enabled="true"
         android:text="@string/action_submit"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnFeedActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCaptureImage" />
 
-<ProgressBar
+    <Button
+        android:id="@+id/btnFeedActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:enabled="true"
+        android:text="@string/feed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
     android:id="@+id/loading"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
