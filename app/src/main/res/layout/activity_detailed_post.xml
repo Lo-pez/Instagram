@@ -1,14 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/llPost"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvUsername"
+        android:id="@+id/tvDetailedUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/textview"
@@ -16,14 +15,20 @@
         tools:text="rahul" />
 
     <ImageView
-        android:id="@+id/ivImage"
+        android:id="@+id/ivDetailedImage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tvDetailedDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        tools:text="trying to look hipster" />
+    <TextView
+        android:id="@+id/tvTimestamp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
