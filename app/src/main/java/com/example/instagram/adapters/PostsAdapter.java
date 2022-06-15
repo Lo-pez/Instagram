@@ -1,4 +1,4 @@
-package com.example.instagram;
+package com.example.instagram.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.instagram.DetailedPostActivity;
+import com.example.instagram.R;
 import com.example.instagram.data.model.Post;
 import com.parse.ParseFile;
 
-import java.util.Date;
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {

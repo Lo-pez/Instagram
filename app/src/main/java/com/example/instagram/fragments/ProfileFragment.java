@@ -2,6 +2,8 @@ package com.example.instagram.fragments;
 
 import android.util.Log;
 
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.example.instagram.data.model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;

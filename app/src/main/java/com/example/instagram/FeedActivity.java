@@ -9,20 +9,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.instagram.adapters.PostsAdapter;
 import com.example.instagram.data.model.Post;
 import com.example.instagram.databinding.ActivityFeedBinding;
-import com.example.instagram.databinding.ActivityMainBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Headers;
 
 public class FeedActivity extends AppCompatActivity {
     public static final String TAG = "FeedActivity";

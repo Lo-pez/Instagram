@@ -15,10 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.instagram.EndlessRecyclerViewScrollListener;
-import com.example.instagram.PostsAdapter;
+import com.example.instagram.adapters.PostsAdapter;
 import com.example.instagram.R;
 import com.example.instagram.data.model.Post;
-import com.example.instagram.databinding.ActivityFeedBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -29,7 +28,7 @@ import java.util.List;
 
 public class PostsFragment extends Fragment {
     public static final String TAG = "PostsFragment";
-    private RecyclerView rvPosts;
+    protected RecyclerView rvPosts;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
     protected SwipeRefreshLayout swipeContainer;

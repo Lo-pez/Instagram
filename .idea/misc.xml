@@ -17,7 +17,8 @@
         <entry key="app/src/main/res/drawable/login_gradient_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.15866388308977036" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.20954284667968742" />
-        <entry key="app/src/main/res/layout/activity_detailed_post.xml" value="0.22287390029325513" />
+        <entry key="app/src/main/res/layout/activity_compose_comment.xml" value="0.7506301879882813" />
+        <entry key="app/src/main/res/layout/activity_detailed_post.xml" value="0.2623318385650224" />
         <entry key="app/src/main/res/layout/activity_feed.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2762054443359376" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.10452117919921872" />

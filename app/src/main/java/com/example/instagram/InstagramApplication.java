@@ -2,6 +2,7 @@ package com.example.instagram;
 
 import android.app.Application;
 
+import com.example.instagram.data.model.Comment;
 import com.example.instagram.data.model.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -28,6 +29,7 @@ public class InstagramApplication extends Application {
         // set applicationId, and server server based on the values in the back4app settings.
         // any network interceptors must be added with the Configuration Builder given this syntax
         ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Comment.class);
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("r83mp2Dd2EsExB3ncYd6mOSsl8BwmlJ6rJUu1lw0") // should correspond to Application Id env variable
                 .clientKey("bzy3zfnUVU97MSsljAWhyVKOUaN0JtVzNmBiUjDv")  // should correspond to Client key env variable
