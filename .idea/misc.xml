@@ -11,10 +11,11 @@
         <entry key="app/src/main/res/layout/activity_feed.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2762054443359376" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.10452117919921872" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2749969482421875" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_gradient_selector.xml" value="0.1" />
         <entry key="app/src/main/res/layout/login_gradient_background.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.23828887939453122" />
       </map>
     </option>
   </component>
