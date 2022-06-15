@@ -18,6 +18,11 @@
     <string name="textview">TextView</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="prompt_username">Username</string>
+    <string name="log_in">Log In</string>
+    <string name="forgot_your_login_details">Forgot your login details?</string>
+    <string name="get_help_signing_in">Get help signing in.</string>
+    <string name="or">OR</string>
 
 
 </resources>
