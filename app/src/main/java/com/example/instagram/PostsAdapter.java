@@ -52,7 +52,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvUsername;
         private ImageView ivImage;
         private TextView tvDescription;
-        private TextView tvTimestamp;
         private LinearLayout llPost;
 
         public ViewHolder(@NonNull View itemView) {
@@ -60,7 +59,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
-            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
             llPost = itemView.findViewById(R.id.llPost);
         }
 
@@ -68,6 +66,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             // Bind the post data to the view elements
             tvDescription.setText(post.getDescription());
             tvUsername.setText(post.getUser().getUsername());
+            ParseFile image = post.getImage();
+            if (image != null) {
+                Glide.with(context).load(image.getUrl()).into(ivImage);
+            }
             llPost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,12 +78,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     context.startActivity(intent);
                 }
             });
-
-
-            ParseFile image = post.getImage();
-            if (image != null) {
-                Glide.with(context).load(image.getUrl()).into(ivImage);
-            }
         }
     }
 

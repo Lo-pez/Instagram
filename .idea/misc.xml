@@ -12,6 +12,8 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2762054443359376" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.10452117919921872" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_compose.xml" value="0.1502426147460936" />
+        <entry key="app/src/main/res/layout/fragment_posts.xml" value="0.1412019575824331" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_gradient_selector.xml" value="0.1" />
         <entry key="app/src/main/res/layout/login_gradient_background.xml" value="0.1" />
