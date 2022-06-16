@@ -25,6 +25,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
@@ -75,6 +76,7 @@ public class DetailedPostActivity extends AppCompatActivity {
         TextView tvDetailedUsername = binding.tvDetailedUsername;
         ImageButton ibHeart = binding.ibHeart;
         ImageButton ibComment = binding.ibComment;
+        TextView tvLikes = binding.tvLikes;
 
         rvComments = binding.rvComments;
         adapter = new CommentsAdapter();
@@ -90,6 +92,13 @@ public class DetailedPostActivity extends AppCompatActivity {
         tvTimeStamp.setText(timeAgo);
         tvDetailedDescription.setText(post.getDescription());
         ParseFile image = post.getImage();
+        if (post.getLikedBy().contains(ParseUser.getCurrentUser())) {
+            ibHeart.setBackgroundResource(R.drawable.ufi_heart_active);
+        }
+        else {
+            ibHeart.setBackgroundResource(R.drawable.ufi_heart);
+        }
+        tvLikes.setText( post.getLikesCount() );
         if (image != null) {
             Glide.with(DetailedPostActivity.this).load(image.getUrl()).into(ivDetailedImage);
         }
@@ -105,7 +114,18 @@ public class DetailedPostActivity extends AppCompatActivity {
         ibHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle liking posts
+                List<ParseUser> likedBy = post.getLikedBy();
+                if (likedBy.contains(ParseUser.getCurrentUser())) {
+                    likedBy.remove(ParseUser.getCurrentUser());
+                    ibHeart.setBackgroundResource(R.drawable.ufi_heart);
+                }
+                else {
+                    ibHeart.setBackgroundResource(R.drawable.ufi_heart_active);
+                    likedBy.add(ParseUser.getCurrentUser());
+                }
+                tvLikes.setText( String.valueOf( post.getLikedBy().size()) );
+                post.setLikedBy(likedBy);
+                post.saveInBackground(); // uploads new value back to parse
             }
         });
         ParseQuery<Comment> query = ParseQuery.getQuery("Comment");

@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.instagram.FeedActivity;
@@ -149,6 +150,8 @@ public class ComposeFragment extends Fragment {
     }
 
     private void savePost(String description, ParseUser currentUser, File photoFile) {
+        ProgressBar progressBar = getView().findViewById(R.id.load);
+        progressBar.setVisibility(View.VISIBLE);
         Post post = new Post();
         post.setDescription(description);
         post.setImage(new ParseFile(this.photoFile));
@@ -166,5 +169,6 @@ public class ComposeFragment extends Fragment {
                 ivPostImage.setVisibility(View.GONE);
             }
         });
+        progressBar.setVisibility(View.GONE);
     }
 }
