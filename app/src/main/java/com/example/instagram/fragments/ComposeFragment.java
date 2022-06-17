@@ -25,11 +25,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.instagram.DetailedPostActivity;
 import com.example.instagram.FeedActivity;
 import com.example.instagram.MainActivity;
 import com.example.instagram.R;
 import com.example.instagram.data.model.Post;
-import com.example.instagram.databinding.ActivityMainBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -45,7 +45,6 @@ public class ComposeFragment extends Fragment {
     public static final String TAG = "ComposeFragment";
     private EditText etDescription;
     private ImageView ivPostImage;
-
     private File photoFile;
     private String photoFileName = "photo.jpg";
 

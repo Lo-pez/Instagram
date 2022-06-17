@@ -9,11 +9,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.instagram.R;
 import com.example.instagram.adapters.PostsAdapter;
+import com.example.instagram.adapters.UserPostAdapter;
 import com.example.instagram.data.model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -26,6 +25,7 @@ import java.util.List;
 public class ProfileFragment extends PostsFragment {
 
     public ParseUser user = ParseUser.getCurrentUser();
+    protected UserPostAdapter adapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -37,11 +37,19 @@ public class ProfileFragment extends PostsFragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), columns, GridLayoutManager.VERTICAL, false);
         rvPosts.setLayoutManager(gridLayoutManager);
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
+        adapter = new UserPostAdapter(getContext(), allPosts);
         rvPosts.setAdapter(adapter);
+
 
         queryPosts(null);
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
     @Override

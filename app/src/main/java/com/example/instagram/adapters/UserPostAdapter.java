@@ -2,21 +2,15 @@ package com.example.instagram.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,68 +18,52 @@ import com.example.instagram.DetailedPostActivity;
 import com.example.instagram.MainActivity;
 import com.example.instagram.R;
 import com.example.instagram.data.model.Post;
-import com.example.instagram.fragments.PostsFragment;
-import com.example.instagram.fragments.ProfileFragment;
 import com.parse.ParseFile;
-import com.parse.ParseUser;
 
 import java.util.List;
 
-public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
+public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHolder> {
     private Context context;
-    private List<Post> posts;
+    private List<Post> userPosts;
 
-    public PostsAdapter(Context context, List<Post> posts) {
+    public UserPostAdapter(Context context, List<Post> userPosts) {
         this.context = context;
-        this.posts = posts;
+        this.userPosts = userPosts;
     }
-
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
+    public UserPostAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_user_post, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Post post = posts.get(position);
+    public void onBindViewHolder(@NonNull UserPostAdapter.ViewHolder holder, int position) {
+        Post post = userPosts.get(position);
         holder.bind(post);
     }
+
     @Override
     public int getItemCount() {
-        return posts.size();
+        return userPosts.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvUsername;
         private ImageView ivImage;
-        private TextView tvDescription;
         private ImageView ivProfileImage;
-        private ConstraintLayout clPost;
-        private ImageButton ibHeart;
-        private ImageButton ibComment;
-        private ImageButton ibSave;
-        private ImageButton ibShare;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
-            tvDescription = itemView.findViewById(R.id.tvDescription);
-            clPost = itemView.findViewById(R.id.clPost);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
-            ibHeart = itemView.findViewById(R.id.ibHeart);
-            ibComment = itemView.findViewById(R.id.ibComment);
-            ibSave = itemView.findViewById(R.id.ibSave);
-            ibShare = itemView.findViewById(R.id.ibShare);
         }
 
         public void bind(Post post) {
             // Bind the post data to the view elements
-            tvDescription.setText(post.getDescription());
             tvUsername.setText(post.getUser().getUsername());
             ParseFile image = post.getImage();
             if (image != null) {
@@ -110,27 +88,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     ((MainActivity)context).goToProfileFragment(post.getUser());
                 }
             });
-        }
-    }
-
-    public void clear() {
-        posts.clear();
-        notifyDataSetChanged();
-    }
-
-    public void addAll(List<Post> list) {
-        posts.addAll(list);
-        notifyDataSetChanged();
-    }
-
-    private void logOut() {
-        ParseUser.logOut();
-        ((MainActivity)context).finish();
-        if (ParseUser.getCurrentUser() == null) {
-            Log.i("profileFragment", "User successfully logged out!");
-        }
-        else {
-            Log.e("profileFragment", "User not logged out!");
         }
     }
 }
