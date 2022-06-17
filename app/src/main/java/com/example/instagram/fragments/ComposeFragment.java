@@ -69,6 +69,14 @@ public class ComposeFragment extends Fragment {
         Button btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         Button btnPostProfileImage = view.findViewById(R.id.btnPostProfileImage);
         Button btnSubmitPostProfileImage = view.findViewById(R.id.btnSubmitProfileImage);
+        Button btnLogOut = view.findViewById(R.id.btnLogOut);
+
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOut();
+            }
+        });
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +118,17 @@ public class ComposeFragment extends Fragment {
                 saveProfileImage(photoFile);
             }
         });
+    }
+
+    private void logOut() {
+        ParseUser.logOut();
+        getActivity().finish();
+        if (ParseUser.getCurrentUser() == null) {
+            Log.i(TAG, "User successfully logged out!");
+        }
+        else {
+            Log.e(TAG, "User not logged out!");
+        }
     }
 
     private void launchCamera() {

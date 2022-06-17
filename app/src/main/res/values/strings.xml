@@ -25,6 +25,7 @@
     <string name="or">OR</string>
     <string name="post_profile_image">Post Profile Image</string>
     <string name="submit_profile_image">Submit Profile Image</string>
+    <string name="logout">Logout</string>
 
 
 </resources>

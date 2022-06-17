@@ -40,10 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        getSupportActionBar().hide();
+
 
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();

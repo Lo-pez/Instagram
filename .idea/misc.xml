@@ -32,7 +32,9 @@
         <entry key="app/src/main/res/layout/item_user_post.xml" value="0.30767720540364585" />
         <entry key="app/src/main/res/layout/layout_gradient_selector.xml" value="0.1" />
         <entry key="app/src/main/res/layout/login_gradient_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/toolbar_main.xml" value="0.46198330583243524" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.3077438354492188" />
+        <entry key="app/src/main/res/menu/menu_main.xml" value="0.1" />
       </map>
     </option>
   </component>
