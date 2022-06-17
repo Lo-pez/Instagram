@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -35,6 +36,7 @@ public class PostsFragment extends Fragment {
     private EndlessRecyclerViewScrollListener scrollListener;
     private LinearLayoutManager linearLayoutManager;
 
+
     public PostsFragment() {
         // Required empty public constructor
     }
@@ -58,14 +60,17 @@ public class PostsFragment extends Fragment {
         adapter = new PostsAdapter(getContext(), allPosts);
         rvPosts.setAdapter(adapter);
 
+
         queryPosts(null);
 
         setUpEndlessScrolling();
-
-        queryPosts(null);
     }
 
-    private void setUpEndlessScrolling() {
+    private void setUpActionBar(){
+
+    }
+
+    void setUpEndlessScrolling() {
         // Retain an instance so that you can call `resetState()` for fresh searches
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -83,7 +88,7 @@ public class PostsFragment extends Fragment {
         queryPosts(allPosts.get(allPosts.size() - 1).getObjectId());
     }
 
-    private void setUpSwipeContainer(View view) {
+    void setUpSwipeContainer(View view) {
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

@@ -47,6 +47,7 @@ public class ComposeFragment extends Fragment {
     private ImageView ivPostImage;
     private Button btnSubmit;
     private Button btnCaptureImage;
+    private Button btnPostProfileImage;
 
     private File photoFile;
     private String photoFileName = "photo.jpg";
@@ -70,6 +71,7 @@ public class ComposeFragment extends Fragment {
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
+        btnPostProfileImage = view.findViewById(R.id.btnPostProfileImage);
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +94,13 @@ public class ComposeFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
+            }
+        });
+
+        btnPostProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // HANDLE POSTING A NEW PROFILE IMAGE
             }
         });
     }

@@ -10,13 +10,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.instagram.DetailedPostActivity;
+import com.example.instagram.MainActivity;
 import com.example.instagram.R;
 import com.example.instagram.data.model.Post;
+import com.example.instagram.fragments.PostsFragment;
+import com.example.instagram.fragments.ProfileFragment;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -52,14 +61,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvUsername;
         private ImageView ivImage;
         private TextView tvDescription;
-        private LinearLayout llPost;
+        private ImageView ivProfileImage;
+        private ConstraintLayout clPost;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
-            llPost = itemView.findViewById(R.id.llPost);
+            clPost = itemView.findViewById(R.id.clPost);
+            ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
         }
 
         public void bind(Post post) {
@@ -70,12 +81,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
             }
-            llPost.setOnClickListener(new View.OnClickListener() {
+            ParseFile profileImage = post.getUser().getParseFile("profileImage");
+            if (profileImage != null) {
+                Glide.with(context).load(profileImage.getUrl()).into(ivProfileImage);
+            }
+            ivImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetailedPostActivity.class);
                     intent.putExtra("post", post);
                     context.startActivity(intent);
+                }
+            });
+            ivProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // DO FRAGMENT STUFF HERE
                 }
             });
         }

@@ -67,4 +67,16 @@
         app:layout_constraintTop_toBottomOf="@+id/btnCaptureImage"
         tools:srcCompat="@tools:sample/avatars"
         tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnPostProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:enabled="true"
+        android:text="@string/post_profile_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
 </androidx.constraintlayout.widget.ConstraintLayout>
