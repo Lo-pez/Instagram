@@ -21,7 +21,7 @@ The following **required** functionality is completed:
 The following **stretch** features are implemented:
 
 - [X] Style the login page to look like the real Instagram login page.
-- [ ] Style the feed to look like the real Instagram feed.
+- [X] Style the feed to look like the real Instagram feed.
 - [X] User can load more posts once they reach the bottom of the feed using endless scrolling.
 - [X] User should switch between different tabs using fragments and a Bottom Navigation View.
   - [X] Feed Tab (to view all posts from all users)
@@ -37,10 +37,6 @@ The following **stretch** features are implemented:
 - [X] User can comment on a post and see all comments for each post in the post details screen.
 - [X] User can like a post and see number of likes for each post in the post details screen.
 
-The following **additional** features are implemented:
-
-- [ ] List anything else that you can get done to improve the app functionality!
-
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1.
@@ -50,7 +46,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='app/movies.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [Kap](https://getkap.co/).
 
