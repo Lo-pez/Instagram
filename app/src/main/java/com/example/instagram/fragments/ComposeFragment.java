@@ -25,20 +25,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.instagram.DetailedPostActivity;
-import com.example.instagram.FeedActivity;
-import com.example.instagram.MainActivity;
 import com.example.instagram.R;
 import com.example.instagram.data.model.Post;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
-import java.util.List;
+import java.util.Objects;
 
 public class ComposeFragment extends Fragment {
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
@@ -46,7 +40,6 @@ public class ComposeFragment extends Fragment {
     private EditText etDescription;
     private ImageView ivPostImage;
     private File photoFile;
-    private String photoFileName = "photo.jpg";
 
     public ComposeFragment() {
         // Required empty public constructor
@@ -71,58 +64,37 @@ public class ComposeFragment extends Fragment {
         Button btnSubmitPostProfileImage = view.findViewById(R.id.btnSubmitProfileImage);
         Button btnLogOut = view.findViewById(R.id.btnLogOut);
 
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logOut();
+        btnLogOut.setOnClickListener(v -> logOut());
+
+        btnCaptureImage.setOnClickListener(v -> launchCamera());
+
+        btnSubmit.setOnClickListener(v -> {
+            String description = etDescription.getText().toString();
+            if (description.isEmpty()) {
+                Toast.makeText(getContext(), "Description cannot be empty!", Toast.LENGTH_SHORT).show();
+                return;
             }
+            if (photoFile == null || ivPostImage.getDrawable() == null) {
+                Toast.makeText(getContext(), "There is no image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            savePost(description, currentUser, photoFile);
         });
 
-        btnCaptureImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchCamera();
+        btnPostProfileImage.setOnClickListener(v -> launchCamera());
+        btnSubmitPostProfileImage.setOnClickListener(v -> {
+            if (photoFile == null || ivPostImage.getDrawable() == null) {
+                Toast.makeText(getContext(), "There is no image", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String description = etDescription.getText().toString();
-                if (description.isEmpty()) {
-                    Toast.makeText(getContext(), "Description cannot be empty!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (photoFile == null || ivPostImage.getDrawable() == null) {
-                    Toast.makeText(getContext(), "There is no image", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                savePost(description, currentUser, photoFile);
-            }
-        });
-
-        btnPostProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchCamera();
-            }
-        });
-        btnSubmitPostProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (photoFile == null || ivPostImage.getDrawable() == null) {
-                    Toast.makeText(getContext(), "There is no image", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                saveProfileImage(photoFile);
-            }
+            saveProfileImage(photoFile);
         });
     }
 
     private void logOut() {
         ParseUser.logOut();
-        getActivity().finish();
+        requireActivity().finish();
         if (ParseUser.getCurrentUser() == null) {
             Log.i(TAG, "User successfully logged out!");
         }
@@ -135,12 +107,13 @@ public class ComposeFragment extends Fragment {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference for future access
+        String photoFileName = "photo.jpg";
         photoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(requireContext(), "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -173,7 +146,7 @@ public class ComposeFragment extends Fragment {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+        File mediaStorageDir = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
@@ -185,38 +158,32 @@ public class ComposeFragment extends Fragment {
     }
 
     private void savePost(String description, ParseUser currentUser, File photoFile) {
-        ProgressBar progressBar = getView().findViewById(R.id.load);
+        ProgressBar progressBar = requireView().findViewById(R.id.load);
         progressBar.setVisibility(View.VISIBLE);
         Post post = new Post();
         post.setDescription(description);
         post.setImage(new ParseFile(this.photoFile));
         post.setUser(currentUser);
-        post.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving new post!", e);
-                    Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
-                }
-                Log.i(TAG, "Post save was successful!");
-                etDescription.setText("");
-                ivPostImage.setImageResource(0);
-                ivPostImage.setVisibility(View.GONE);
+        post.saveInBackground(e -> {
+            if (e != null) {
+                Log.e(TAG, "Error while saving new post!", e);
+                Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
             }
+            Log.i(TAG, "Post save was successful!");
+            etDescription.setText("");
+            ivPostImage.setImageResource(0);
+            ivPostImage.setVisibility(View.GONE);
         });
         progressBar.setVisibility(View.GONE);
     }
 
     private void saveProfileImage(File photoFile) {
-        ProgressBar progressBar = getView().findViewById(R.id.load);
+        ProgressBar progressBar = requireView().findViewById(R.id.load);
         progressBar.setVisibility(View.VISIBLE);
         final ParseFile profileImage = new ParseFile(photoFile);
-        profileImage.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                ParseUser.getCurrentUser().put("profileImage", profileImage);
-                ParseUser.getCurrentUser().saveInBackground();
-            }
+        profileImage.saveInBackground((SaveCallback) e -> {
+            ParseUser.getCurrentUser().put("profileImage", profileImage);
+            ParseUser.getCurrentUser().saveInBackground();
         });
         progressBar.setVisibility(View.GONE);
     }

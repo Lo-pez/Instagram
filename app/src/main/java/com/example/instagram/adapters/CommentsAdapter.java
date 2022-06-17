@@ -2,7 +2,6 @@ package com.example.instagram.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,17 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.instagram.R;
 import com.example.instagram.data.model.Comment;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
 
-    public ArrayList<Comment> mComments = new ArrayList<>();
+    public final ArrayList<Comment> mComments = new ArrayList<>();
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvAuthor;
-        public TextView tvBody;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public final TextView tvAuthor;
+        public final TextView tvBody;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -41,8 +38,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
         View commentView = inflater.inflate(R.layout.item_comment, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(commentView);
-        return viewHolder;
+        return new ViewHolder(commentView);
     }
 
     @Override

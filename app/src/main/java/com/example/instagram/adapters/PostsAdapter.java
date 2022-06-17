@@ -8,15 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,16 +19,14 @@ import com.example.instagram.DetailedPostActivity;
 import com.example.instagram.MainActivity;
 import com.example.instagram.R;
 import com.example.instagram.data.model.Post;
-import com.example.instagram.fragments.PostsFragment;
-import com.example.instagram.fragments.ProfileFragment;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
-    private Context context;
-    private List<Post> posts;
+    private final Context context;
+    private final List<Post> posts;
 
     public PostsAdapter(Context context, List<Post> posts) {
         this.context = context;
@@ -60,27 +53,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvUsername;
-        private ImageView ivImage;
-        private TextView tvDescription;
-        private ImageView ivProfileImage;
-        private ConstraintLayout clPost;
-        private ImageButton ibHeart;
-        private ImageButton ibComment;
-        private ImageButton ibSave;
-        private ImageButton ibShare;
+        private final TextView tvUsername;
+        private final ImageView ivImage;
+        private final TextView tvDescription;
+        private final ImageView ivProfileImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
-            clPost = itemView.findViewById(R.id.clPost);
+            ConstraintLayout clPost = itemView.findViewById(R.id.clPost);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
-            ibHeart = itemView.findViewById(R.id.ibHeart);
-            ibComment = itemView.findViewById(R.id.ibComment);
-            ibSave = itemView.findViewById(R.id.ibSave);
-            ibShare = itemView.findViewById(R.id.ibShare);
+            ImageButton ibHeart = itemView.findViewById(R.id.ibHeart);
+            ImageButton ibComment = itemView.findViewById(R.id.ibComment);
+            ImageButton ibSave = itemView.findViewById(R.id.ibSave);
+            ImageButton ibShare = itemView.findViewById(R.id.ibShare);
         }
 
         public void bind(Post post) {
@@ -95,20 +83,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (profileImage != null) {
                 Glide.with(context).load(profileImage.getUrl()).circleCrop().into(ivProfileImage);
             }
-            ivImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, DetailedPostActivity.class);
-                    intent.putExtra("post", post);
-                    context.startActivity(intent);
-                }
+            ivImage.setOnClickListener(v -> {
+                Intent intent = new Intent(context, DetailedPostActivity.class);
+                intent.putExtra("post", post);
+                context.startActivity(intent);
             });
-            ivProfileImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // tell the activity to go to the Profile Fragment
-                    ((MainActivity)context).goToProfileFragment(post.getUser());
-                }
+            ivProfileImage.setOnClickListener(v -> {
+                // tell the activity to go to the Profile Fragment
+                ((MainActivity)context).goToProfileFragment(post.getUser());
             });
         }
     }

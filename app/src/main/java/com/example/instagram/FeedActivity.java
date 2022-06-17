@@ -12,8 +12,6 @@ import android.view.View;
 import com.example.instagram.adapters.PostsAdapter;
 import com.example.instagram.data.model.Post;
 import com.example.instagram.databinding.ActivityFeedBinding;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
@@ -26,7 +24,6 @@ public class FeedActivity extends AppCompatActivity {
     private ActivityFeedBinding binding;
     private RecyclerView rvPosts;
     private SwipeRefreshLayout swipeContainer;
-    private EndlessRecyclerViewScrollListener scrollListener;
     private LinearLayoutManager linearLayoutManager;
 
     @Override
@@ -53,7 +50,9 @@ public class FeedActivity extends AppCompatActivity {
 
     private void setUpEndlessScrolling() {
         // Retain an instance so that you can call `resetState()` for fresh searches
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        // Triggered only when new data needs to be appended to the list
+        // Add whatever code is needed to append new items to the bottom of the list
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
@@ -72,15 +71,12 @@ public class FeedActivity extends AppCompatActivity {
     private void setUpSwipeContainer() {
         swipeContainer = (SwipeRefreshLayout) binding.swipeContainer;
         // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                adapter.clear();
-                queryPosts(null);
-            }
+        swipeContainer.setOnRefreshListener(() -> {
+            // Your code to refresh the list here.
+            // Make sure you call swipeContainer.setRefreshing(false)
+            // once the network request has completed successfully.
+            adapter.clear();
+            queryPosts(null);
         });
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -100,25 +96,22 @@ public class FeedActivity extends AppCompatActivity {
         // order posts by creation date (newest first)
         query.addDescendingOrder("createdAt");
         // start an asynchronous call for posts
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                // check for errors
-                if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
-                    return;
-                }
-
-                // for debugging purposes let's print every post description to logcat
-                for (Post post : posts) {
-                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                }
-
-                // save received posts to list and notify adapter of new data
-                allPosts.addAll(posts);
-                adapter.notifyDataSetChanged();
-                swipeContainer.setRefreshing(false);
+        query.findInBackground((posts, e) -> {
+            // check for errors
+            if (e != null) {
+                Log.e(TAG, "Issue with getting posts", e);
+                return;
             }
+
+            // for debugging purposes let's print every post description to logcat
+            for (Post post : posts) {
+                Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
+            }
+
+            // save received posts to list and notify adapter of new data
+            allPosts.addAll(posts);
+            adapter.notifyDataSetChanged();
+            swipeContainer.setRefreshing(false);
         });
     }
 }

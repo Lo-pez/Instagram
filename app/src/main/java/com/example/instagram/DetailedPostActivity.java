@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,12 +17,7 @@ import com.example.instagram.adapters.CommentsAdapter;
 import com.example.instagram.data.model.Comment;
 import com.example.instagram.data.model.Post;
 import com.example.instagram.databinding.ActivityDetailedPostBinding;
-import com.example.instagram.databinding.ActivityFeedBinding;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -32,8 +26,6 @@ import java.util.List;
 
 public class DetailedPostActivity extends AppCompatActivity {
     public static final String TAG = "DetailedPostActivity";
-    private ActivityDetailedPostBinding binding;
-    private RecyclerView rvComments;
     private CommentsAdapter adapter;
     private Post post;
 
@@ -50,23 +42,20 @@ public class DetailedPostActivity extends AppCompatActivity {
         query.whereEqualTo(Comment.KEY_POST, post);
         query.orderByDescending("createdAt");
         query.include(Comment.KEY_AUTHOR);
-        query.findInBackground(new FindCallback<Comment>() {
-            @Override
-            public void done(List<Comment> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, e.getMessage());
-                    return;
-                }
-                adapter.mComments.addAll(objects);
-                adapter.notifyDataSetChanged();
+        query.findInBackground((objects, e) -> {
+            if (e != null) {
+                Log.e(TAG, e.getMessage());
+                return;
             }
+            adapter.mComments.addAll(objects);
+            adapter.notifyDataSetChanged();
         });
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDetailedPostBinding.inflate(getLayoutInflater());
+        com.example.instagram.databinding.ActivityDetailedPostBinding binding = ActivityDetailedPostBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
@@ -78,7 +67,7 @@ public class DetailedPostActivity extends AppCompatActivity {
         ImageButton ibComment = binding.ibComment;
         TextView tvLikes = binding.tvLikes;
 
-        rvComments = binding.rvComments;
+        RecyclerView rvComments = binding.rvComments;
         adapter = new CommentsAdapter();
         rvComments.setLayoutManager(new LinearLayoutManager(this));
         rvComments.setAdapter(adapter);
@@ -102,46 +91,37 @@ public class DetailedPostActivity extends AppCompatActivity {
         if (image != null) {
             Glide.with(DetailedPostActivity.this).load(image.getUrl()).into(ivDetailedImage);
         }
-        ibComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Go to compose comment activity
-                Intent intent = new Intent(DetailedPostActivity.this, ComposeCommentActivity.class);
-                intent.putExtra("post", post);
-                startActivity(intent);
-            }
+        ibComment.setOnClickListener(v -> {
+            // Go to compose comment activity
+            Intent intent1 = new Intent(DetailedPostActivity.this, ComposeCommentActivity.class);
+            intent1.putExtra("post", post);
+            startActivity(intent1);
         });
-        ibHeart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<ParseUser> likedBy = post.getLikedBy();
-                if (likedBy.contains(ParseUser.getCurrentUser())) {
-                    likedBy.remove(ParseUser.getCurrentUser());
-                    ibHeart.setBackgroundResource(R.drawable.ufi_heart);
-                }
-                else {
-                    ibHeart.setBackgroundResource(R.drawable.ufi_heart_active);
-                    likedBy.add(ParseUser.getCurrentUser());
-                }
-                tvLikes.setText( String.valueOf( post.getLikedBy().size()) );
-                post.setLikedBy(likedBy);
-                post.saveInBackground(); // uploads new value back to parse
+        ibHeart.setOnClickListener(v -> {
+            List<ParseUser> likedBy = post.getLikedBy();
+            if (likedBy.contains(ParseUser.getCurrentUser())) {
+                likedBy.remove(ParseUser.getCurrentUser());
+                ibHeart.setBackgroundResource(R.drawable.ufi_heart);
             }
+            else {
+                ibHeart.setBackgroundResource(R.drawable.ufi_heart_active);
+                likedBy.add(ParseUser.getCurrentUser());
+            }
+            tvLikes.setText( String.valueOf( post.getLikedBy().size()) );
+            post.setLikedBy(likedBy);
+            post.saveInBackground(); // uploads new value back to parse
         });
         ParseQuery<Comment> query = ParseQuery.getQuery("Comment");
         query.whereEqualTo(Comment.KEY_POST, post);
         query.orderByDescending("createdAt");
         query.include(Comment.KEY_AUTHOR);
-        query.findInBackground(new FindCallback<Comment>() {
-            @Override
-            public void done(List<Comment> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, e.getMessage());
-                    return;
-                }
-                adapter.mComments.addAll(objects);
-                adapter.notifyDataSetChanged();
+        query.findInBackground((objects, e) -> {
+            if (e != null) {
+                Log.e(TAG, e.getMessage());
+                return;
             }
+            adapter.mComments.addAll(objects);
+            adapter.notifyDataSetChanged();
         });
     }
 }

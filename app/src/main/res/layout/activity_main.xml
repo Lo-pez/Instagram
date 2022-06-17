@@ -23,7 +23,7 @@ tools:context=".ui.login.LoginActivity">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_navigation"
-        android:layout_below="@+id/toolbar_main"></FrameLayout>
+        android:layout_below="@+id/toolbar_main" />
 
     <ProgressBar
     android:id="@+id/loading"

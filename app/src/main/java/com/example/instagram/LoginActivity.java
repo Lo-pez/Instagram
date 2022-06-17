@@ -2,7 +2,6 @@ package com.example.instagram;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.instagram.data.model.Post;
 import com.example.instagram.databinding.ActivityLoginBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -20,16 +18,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
-    public static final int RC_SIGN_IN = 07;
+    public static final int RC_SIGN_IN = 7;
     GoogleSignInClient mGoogleSignInClient;
     ActivityLoginBinding binding;
 
@@ -53,32 +48,21 @@ public class LoginActivity extends AppCompatActivity {
         Button btnLogin = binding.btnLogin;
         Button btnSignUp = binding.btnSignUp;
         SignInButton btnGoogleSignIn = binding.signInButton;
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick Login Button");
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                loginUser(username, password);
-            }
+        btnLogin.setOnClickListener(v -> {
+            Log.i(TAG, "onClick Login Button");
+            String username = etUsername.getText().toString();
+            String password = etPassword.getText().toString();
+            loginUser(username, password);
         });
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "onClick SignUp Button");
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                signUpUser(username, password);
-            }
+        Objects.requireNonNull(btnSignUp).setOnClickListener(v -> {
+            Log.i(TAG, "onClick SignUp Button");
+            String username = etUsername.getText().toString();
+            String password = etPassword.getText().toString();
+            signUpUser(username, password);
         });
-        btnGoogleSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch(v.getId()) {
-                    case R.id.sign_in_button:
-                        signIn();
-                        break;
-                }
+        Objects.requireNonNull(btnGoogleSignIn).setOnClickListener(v -> {
+            if (v.getId() == R.id.sign_in_button) {
+                signIn();
             }
         });
     }
@@ -131,34 +115,28 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(GoogleSignInAccount account) {
-        ParseUser.logInInBackground(account.getDisplayName(), null, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with login", e);
-                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                goMainActivity();
-                Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_LONG).show();
+        ParseUser.logInInBackground(Objects.requireNonNull(account.getDisplayName()), null, (user, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Issue with login", e);
+                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
             }
+            goMainActivity();
+            Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_LONG).show();
         });
     }
 
 
     private void loginUser(String username, String password) {
         Log.i(TAG, "Attempting to log in user " + username);
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with login", e);
-                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                goMainActivity();
-                Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_LONG).show();
+        ParseUser.logInInBackground(username, password, (user, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Issue with login", e);
+                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
             }
+            goMainActivity();
+            Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_LONG).show();
         });
     }
 
@@ -168,27 +146,21 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving new post!", e);
-                    Toast.makeText(LoginActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
-                }
-                Log.i(TAG, "User was successfully signed up!");
-                loginUser(username, password);
+        user.signUpInBackground(e -> {
+            if (e != null) {
+                Log.e(TAG, "Error while saving new post!", e);
+                Toast.makeText(LoginActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
             }
+            Log.i(TAG, "User was successfully signed up!");
+            loginUser(username, password);
         });
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Issue with login", e);
-                    return;
-                }
-                goMainActivity();
-                Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_LONG).show();
+        ParseUser.logInInBackground(username, password, (user1, e) -> {
+            if (e != null) {
+                Log.e(TAG, "Issue with login", e);
+                return;
             }
+            goMainActivity();
+            Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_LONG).show();
         });
     }
 
