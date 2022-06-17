@@ -25,6 +25,8 @@ import java.util.List;
 
 public class ProfileFragment extends PostsFragment {
 
+    public ParseUser user = ParseUser.getCurrentUser();
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -39,16 +41,17 @@ public class ProfileFragment extends PostsFragment {
         rvPosts.setAdapter(adapter);
 
         queryPosts(null);
+
     }
 
     @Override
-    protected void queryPosts(String maxId) {
+    public void queryPosts(String maxId) {
 
         // specify what type of data we want to query - Post.class
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // include data referred by user key
         query.include(Post.KEY_USER);
-        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
+        query.whereEqualTo(Post.KEY_USER, user);
         query.setLimit(20);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {

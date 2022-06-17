@@ -24,6 +24,7 @@
     <string name="get_help_signing_in">Get help signing in.</string>
     <string name="or">OR</string>
     <string name="post_profile_image">Post Profile Image</string>
+    <string name="submit_profile_image">Submit Profile Image</string>
 
 
 </resources>

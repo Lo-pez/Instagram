@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.instagram.EndlessRecyclerViewScrollListener;
 import com.example.instagram.adapters.PostsAdapter;
@@ -59,7 +60,6 @@ public class PostsFragment extends Fragment {
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
         rvPosts.setAdapter(adapter);
-
 
         queryPosts(null);
 

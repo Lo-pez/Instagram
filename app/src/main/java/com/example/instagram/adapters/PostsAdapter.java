@@ -96,7 +96,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             ivProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // DO FRAGMENT STUFF HERE
+                    // tell the activity to go to the Profile Fragment
+                    ((MainActivity)context).goToProfileFragment(post.getUser());
                 }
             });
         }

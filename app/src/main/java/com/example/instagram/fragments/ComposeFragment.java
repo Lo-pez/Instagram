@@ -45,9 +45,6 @@ public class ComposeFragment extends Fragment {
     public static final String TAG = "ComposeFragment";
     private EditText etDescription;
     private ImageView ivPostImage;
-    private Button btnSubmit;
-    private Button btnCaptureImage;
-    private Button btnPostProfileImage;
 
     private File photoFile;
     private String photoFileName = "photo.jpg";
@@ -69,9 +66,10 @@ public class ComposeFragment extends Fragment {
 
         etDescription = view.findViewById(R.id.etDescription);
         ivPostImage = view.findViewById(R.id.ivPostImage);
-        btnSubmit = view.findViewById(R.id.btnSubmit);
-        btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
-        btnPostProfileImage = view.findViewById(R.id.btnPostProfileImage);
+        Button btnSubmit = view.findViewById(R.id.btnSubmit);
+        Button btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
+        Button btnPostProfileImage = view.findViewById(R.id.btnPostProfileImage);
+        Button btnSubmitPostProfileImage = view.findViewById(R.id.btnSubmitProfileImage);
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +98,17 @@ public class ComposeFragment extends Fragment {
         btnPostProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // HANDLE POSTING A NEW PROFILE IMAGE
+                launchCamera();
+            }
+        });
+        btnSubmitPostProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (photoFile == null || ivPostImage.getDrawable() == null) {
+                    Toast.makeText(getContext(), "There is no image", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                saveProfileImage(photoFile);
             }
         });
     }
@@ -176,6 +184,20 @@ public class ComposeFragment extends Fragment {
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
                 ivPostImage.setVisibility(View.GONE);
+            }
+        });
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void saveProfileImage(File photoFile) {
+        ProgressBar progressBar = getView().findViewById(R.id.load);
+        progressBar.setVisibility(View.VISIBLE);
+        final ParseFile profileImage = new ParseFile(photoFile);
+        profileImage.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                ParseUser.getCurrentUser().put("profileImage", profileImage);
+                ParseUser.getCurrentUser().saveInBackground();
             }
         });
         progressBar.setVisibility(View.GONE);

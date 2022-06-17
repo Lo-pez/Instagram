@@ -34,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FloatingActionButton btnLogOut;
     private BottomNavigationView bottomNavigationView;
+    public ProfileFragment profileFragment = new ProfileFragment();
+
+    public void goToProfileFragment(ParseUser user) {
+        bottomNavigationView.setSelectedItemId(R.id.action_profile);
+        profileFragment.user = user;
+         profileFragment.queryPosts("0");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                     default:
-                        fragment = new ProfileFragment();
+                        fragment = profileFragment;
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();

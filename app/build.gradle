@@ -60,4 +60,5 @@ dependencies {
     implementation 'com.codepath.libraries:asynchttpclient:2.1.1'
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     implementation "com.google.android.material:material:${designSupportVersion}"
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
 }

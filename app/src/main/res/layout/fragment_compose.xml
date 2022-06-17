@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:autofillHints="@string/title_description"
         android:hint="@string/prompt_email"
+        android:backgroundTint="@color/white"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
@@ -38,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/white"
         android:enabled="true"
         android:text="@string/action_take_picture"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,9 +51,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
+        android:backgroundTint="@color/white"
         android:enabled="true"
         android:text="@string/action_submit"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnPostProfileImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPostImage" />
@@ -75,8 +78,22 @@
         android:layout_gravity="start"
         android:enabled="true"
         android:text="@string/post_profile_image"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
+
+    <Button
+        android:id="@+id/btnSubmitProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:backgroundTint="@color/white"
+        android:enabled="true"
+        android:text="@string/submit_profile_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnPostProfileImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>
